@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * Copyright (c) 2016 Bruce Schubert.
  * The MIT License
  * http://www.opensource.org/licenses/mit-license
@@ -109,6 +109,19 @@ define([
             // Load additional layers and layer options
             this.globe.layerManager.loadDefaultLayers();
 
+
+
+            //this.renderableLayer;
+            //var kmlFilePromise = new WorldWind.KmlFile('https://firms.modaps.eosdis.nasa.gov/active_fire/c6/kml/MODIS_C6_Global_24h.kml', [new WorldWind.KmlTreeVisibility('treeControls', wwd)]);
+            //kmlFilePromise.then(function (kmlFile) {
+            //    this.renderableLayer = new WorldWind.RenderableLayer("24 Hour");
+                //renderableLayer.currentTimeInterval = [
+                //    new Date("Mon Aug 09 2015 12:10:10 GMT+0200 (Střední Evropa (letní čas))").valueOf(),
+                //    new Date("Mon Aug 11 2015 12:10:10 GMT+0200 (Střední Evropa (letní čas))").valueOf()
+                //];
+            //    this.renderableLayer.addRenderable(kmlFile);
+            //});
+            //this.globe.layerManager.addDataLayer(this.rederableLayer, { enabled: true, pickEnabled: true });
             // Configure the manager of objects on the globe
             this.markerManager = new MarkerManager(this.globe);
             this.symbolManager = new SymbolManager(this.globe);
@@ -167,11 +180,11 @@ define([
             // Dialogs
             new LayerSettings(this.globe, layerSettingsHtml);
             new MarkerEditor(markerEditorHtml);
-            new TacticalSymbolEditor(tacticalSymbolEditorHtml);
+            //new TacticalSymbolEditor(tacticalSymbolEditorHtml);
             
             // Marker content
             markersViewModel.addMarkers(this.markerManager, basicMarkersHtml, "markers-body");
-            markersViewModel.addMarkers(this.symbolManager, tacticalSymbolsHtml, "markers-body");
+            //markersViewModel.addMarkers(this.symbolManager, tacticalSymbolsHtml, "markers-body");
 
         };
 
