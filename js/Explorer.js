@@ -37,6 +37,7 @@ define([
     'text!views/settings.html',
     'text!views/symbols.html',
     'text!views/symbol-editor.html',
+    'FireRestAPI',
     'url-search-params',
     'knockout',
     'jquery',
@@ -74,6 +75,7 @@ define([
         settingsHtml,
         tacticalSymbolsHtml,
         tacticalSymbolEditorHtml,
+        FireRestAPI,
         URLSearchParams,
         ko,
         $) {
@@ -172,6 +174,10 @@ define([
             // Marker content
             markersViewModel.addMarkers(this.markerManager, basicMarkersHtml, "markers-body");
             markersViewModel.addMarkers(this.symbolManager, tacticalSymbolsHtml, "markers-body");
+
+            // Load fires data from API each time Explorer is opened.
+            var requestAllFires = ""
+
 
         };
 
