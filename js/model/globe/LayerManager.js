@@ -141,13 +141,13 @@ define([
                 // Define the Globe's default layers
                 this.addBaseLayer(new WorldWind.BMNGLayer(), {enabled: true, hideInMenu: false, detailControl: config.imagerydetailControl});
                 this.addBaseLayer(new WorldWind.BMNGLandsatLayer(), {enabled: false, detailControl: config.imagerydetailControl});
-                this.addBaseLayer(new WorldWind.BingAerialWithLabelsLayer(null), {enabled: false, detailControl: config.imagerydetailControl});
-                this.addBaseLayer(new EoxSentinal2CloudlessLayer(), {enabled: false, detailControl: config.imagerydetailControl});
-                this.addBaseLayer(new EoxSentinal2WithLabelsLayer(), {enabled: false, detailControl: config.imagerydetailControl});
-                this.addBaseLayer(new UsgsImageryTopoBaseMapLayer(), {enabled: false, detailControl: 1.75});
-                this.addBaseLayer(new UsgsTopoBaseMapLayer(), {enabled: false, detailControl: config.imagerydetailControl});
-                this.addBaseLayer(new WorldWind.BingRoadsLayer(null), {enabled: false, opacity: 0.7, detailControl: config.imagerydetailControl});
-                this.addBaseLayer(new EoxOpenStreetMapLayer(), {enabled: false, opacity: 0.8, detailControl: config.imagerydetailControl});
+                //this.addBaseLayer(new WorldWind.BingAerialWithLabelsLayer(null), {enabled: false, detailControl: config.imagerydetailControl});
+                //this.addBaseLayer(new EoxSentinal2CloudlessLayer(), {enabled: false, detailControl: config.imagerydetailControl});
+                //this.addBaseLayer(new EoxSentinal2WithLabelsLayer(), {enabled: false, detailControl: config.imagerydetailControl});
+                //this.addBaseLayer(new UsgsImageryTopoBaseMapLayer(), {enabled: false, detailControl: 1.75});
+                //this.addBaseLayer(new UsgsTopoBaseMapLayer(), {enabled: false, detailControl: config.imagerydetailControl});
+                //this.addBaseLayer(new WorldWind.BingRoadsLayer(null), {enabled: false, opacity: 0.7, detailControl: config.imagerydetailControl});
+                //this.addBaseLayer(new EoxOpenStreetMapLayer(), {enabled: false, opacity: 0.8, detailControl: config.imagerydetailControl});
 
 
 //            // Asynchronysly load the WMS layers found in the WWSK GeoServer WMS
