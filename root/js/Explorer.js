@@ -176,7 +176,9 @@ define([
             markersViewModel.addMarkers(this.symbolManager, tacticalSymbolsHtml, "markers-body");
 
             // Load fires data from API each time Explorer is opened.
-            var requestAllFires = ""
+            var requestAllFiresURL = "http://nasaspaceappschallenge2018.ddns.net:8081/api/fires/";
+            var allFireRequest = new FireRestAPI(requestAllFiresURL);
+            allFireRequest.retrieveFires(this.symbolManager);
 
 
         };
@@ -275,7 +277,6 @@ define([
         Explorer.prototype.restoreSession = function () {
             log.info('Explorer', 'restoreSession', 'Restoring the model and view.');
             this.markerManager.restoreMarkers();
-            this.symbolManager.restoreSymbols();
             this.restoreSessionView();
             // Update all time sensitive objects
             this.globe.updateDateTime(new Date());

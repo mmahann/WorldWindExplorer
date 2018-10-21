@@ -180,8 +180,10 @@ define([
         // when the globe is clicked while dropIsArmed is true.
         GlobeViewModel.prototype.dropSymbolCallback = function (position, symbolTemplate) {
             // Add the placemark to the layer and to the observable array
+            
+            // TODO: Justin, this is where new symbols are created, we could trigger the initial edit menu from this after the addSymbol call resolves
             this.symbolManager.addSymbol(new TacticalSymbol(
-                this.symbolManager, position, {symbolCode: symbolTemplate.symbolCode}));
+                this.symbolManager, position, {symbolCode: symbolTemplate.symbolCode, timeReported: new Date(), timeExtinguished: null, isMoveable: true, user: true, verified: false, fid: null}));
         };
 
         /**

@@ -138,9 +138,10 @@ define([
             var fid = null;
             var timeReportedStamp = null;
             var timeExtinguishedStamp = null;
+            var verified = false;
 
             // Loop thru the length of obj to process each row of return data
-            for (var i = 0; i < obj.length; i++) {
+            for (var i = 0; i < obj.data.length; i++) {
                 // Format data for ease of use in WW datatypes.
                 firePosition = new WorldWind.Position(obj['data'][i]['fire_lat'], obj['data'][i]['fire_lon'], obj['data'][i]['fire_alt']);
                 fid = obj['data'][i]['fid'];
