@@ -208,7 +208,7 @@ define([
             };
 
             // create body string based on params
-            if (typeof params.exttime === 'undefined') {
+            if (typeof params.exttime === null) {
                 var dateString = null;
             } else {
                 var dateString = params.exttime.replace('-', "")
