@@ -37,6 +37,7 @@ define([
     'text!views/settings.html',
     'text!views/symbols.html',
     'text!views/symbol-editor.html',
+    'FireRestAPI',
     'url-search-params',
     'knockout',
     'jquery',
@@ -74,6 +75,7 @@ define([
         settingsHtml,
         tacticalSymbolsHtml,
         tacticalSymbolEditorHtml,
+        FireRestAPI,
         URLSearchParams,
         ko,
         $) {
@@ -173,6 +175,12 @@ define([
             //markersViewModel.addMarkers(this.markerManager, basicMarkersHtml, "markers-body");
             markersViewModel.addMarkers(this.symbolManager, tacticalSymbolsHtml, "markers-body");
 
+            // Load fires data from API each time Explorer is opened.
+            var requestAllFiresURL = "http://nasaspaceappschallenge2018.ddns.net:8081/api/fires/";
+            var allFireRequest = new FireRestAPI(requestAllFiresURL);
+            allFireRequest.retrieveFires(this.symbolManager);
+
+
         };
 
         /**
@@ -269,7 +277,6 @@ define([
         Explorer.prototype.restoreSession = function () {
             log.info('Explorer', 'restoreSession', 'Restoring the model and view.');
             this.markerManager.restoreMarkers();
-            this.symbolManager.restoreSymbols();
             this.restoreSessionView();
             // Update all time sensitive objects
             this.globe.updateDateTime(new Date());

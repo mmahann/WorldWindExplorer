@@ -67,17 +67,7 @@ define(['milsymbol', 'worldwind'],
             this.symbolCode = symbolCode;
             this.symbolModifiers = symbolModifiers;
 
-            this.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
-            if (symbolCode.substring(2, 3) === "A") {
-                // Air
-                this.position.altitude = 15000;
-            } else if (symbolCode.substring(2, 3) === "P") {
-                // Space
-                this.position.altitude = 150000;
-            } else {
-                // Ground/Sea/Subsurface
-                this.position.altitude = 0;
-            }
+            this.altitudeMode = WorldWind.ABSOLUTE;
 
             switch (this.symbolCode.substring(0, 2)) {
                 case "SF" :

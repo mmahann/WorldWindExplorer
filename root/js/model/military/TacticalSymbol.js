@@ -52,6 +52,11 @@ define([
 
             this.globe = manager.globe;
 
+            this.timeReported = args['timeReported'];
+            this.timeExtinguished = args['timeExtinguished'];
+            this.userCreated = args['user'];
+            this.isVerified = args['verified'];
+            this.fid = args['fid'];
             // ---------------------------
             // Add the mix-in capabilites
             // ---------------------------
@@ -60,11 +65,15 @@ define([
             // observables. The SymbolManager toggles the isMovable state when a symbol is selected.
             movable.makeMovable(this);
 
+            
+
             // Make selectable via picking (see PickController): adds the "select" method
             selectable.makeSelectable(this, function (params) {   // define the callback that selects this symbol
-                this.isMovable(params.selected);
-                this.placemark.highlighted = params.selected;
-                return true;    // return true to fire a EVENT_OBJECT_SELECTED event
+                if(this.userCreated) {
+                    this.isMovable(params.selected);
+                    this.placemark.highlighted = params.selected;
+                    return true;    // return true to fire a EVENT_OBJECT_SELECTED event
+                }
             });
 
             // Make openable via menus: adds the isOpenable member and the "open" method
@@ -102,7 +111,7 @@ define([
             /** The name of this symbol */
             this.name = ko.observable(args.name || "Symbol");
             /** The movable mix-in state */
-            this.isMovable(args.isMovable === undefined ? false : args.isMovable);
+            this.isMovable(args['isMovable'] === undefined ? false : args['isMovable']);
             /** The latitude of this symbol -- set be by the Movable interface during pick/drag operations. See PickController */
             this.latitude(position.latitude);
             /** The longitude of this symbol -- may be set by the Movable interface during pick/drag operations See PickController */
@@ -115,20 +124,6 @@ define([
             this.symbolCode = ko.observable(args.symbolCode || "SUG------------"); // Default to  Warfighting. Unknown. Ground.
             this.modifiers = ko.observable({size: 30}); // Set the default size
 
-
-//            this.symbolCode = ko.observable("sfgpewrh--mt");
-//            this.modifiers = ko.observable({
-//                size: 30,
-//                quantity: 200,
-//                staffComments: "for reinforcements".toUpperCase(),
-//                additionalInformation: "added support for JJ".toUpperCase(),
-//                direction: (750 * 360 / 6400),
-//                type: "machine gun".toUpperCase(),
-//                dtg: "30140000ZSEP97",
-//                location: "0900000.0E570306.0N"
-//            });
-
-
             // ----------
             // Internals
             // ----------
@@ -139,7 +134,6 @@ define([
 
             this.placemark = new TacticalSymbolPlacemark(position, this.symbolCode(), this.modifiers());
 
-            //this.placemark.label = this.name();
 
             // Configure the placemark to return this symbol object when the placemark is picked, 
             // See: PickController
@@ -150,12 +144,12 @@ define([
             // --------------
 
             // Update the placemark when the symbol code changes
-            this.symbolCode.subscribe(function (newSymbolCode) {
-                self.name(newSymbolCode);
-                self.placemark.updateSymbol(newSymbolCode, self.modifiers());
-                self.placemark.attributes = TacticalSymbolPlacemark.getPlacemarkAttributes(
-                    newSymbolCode, self.modifiers(), self.placemark.lastLevelOfDetail);
-            });
+            // this.symbolCode.subscribe(function (newSymbolCode) {
+            //     self.name(newSymbolCode);
+            //     self.placemark.updateSymbol(newSymbolCode, self.modifiers());
+            //     self.placemark.attributes = TacticalSymbolPlacemark.getPlacemarkAttributes(
+            //         newSymbolCode, self.modifiers(), self.placemark.lastLevelOfDetail);
+            // });
 
             this.latitude.subscribe(function (newLat) {
                 self.placemark.position.latitude = newLat;
