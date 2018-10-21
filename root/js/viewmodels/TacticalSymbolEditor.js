@@ -277,21 +277,19 @@ define([
                 console.log(symbolCode);
                 self.symbol().symbolCode(symbolCode);
                 
-                if (self.symbol().dbLat != parseFloat(self.symbol().latitude()) || 
+                if ((self.symbol().dbLat != parseFloat(self.symbol().latitude()) || 
                     self.symbol().dbLon != parseFloat(self.symbol().longitude()) || 
-                    self.symbol().dbAlt != parseFloat(self.symbol().altitude())) {
-                    // process location change thru api
-                }
-                if (self.symbol().dbTimeExtinguished != self.symbol().koTimeExtinguished()) {
+                    self.symbol().dbAlt != parseFloat(self.symbol().altitude())) || 
+                    self.symbol().dbTimeExtinguished != self.symbol().koTimeExtinguished() ||
+                    self.symbol().dbIsVerified != self.symbol().koIsVerified()) {
+                    // process any change thru api
                     var updateFireQueryURL = "http://nasaspaceappschallenge2018.ddns.net:8081/api/fires/" + self.symbol().fid;
                     //var updateFireQueryURL = "http://localhost:4000/api/fires/" + self.symbol().fid;
                     var updateFireQuery = new FireRestAPI(updateFireQueryURL);
-                    updateFireQuery.updateFire(self.symbol().manager, self.symbol().koTimeExtinguished());
+                    var params = {lat: parseFloat(self.symbol().latitude()), lon: parseFloat(self.symbol().longitude()), alt: parseFloat(self.symbol().altitude()),
+                                 verified: self.symbol().koIsVerified(), exttime: self.symbol().koTimeExtinguished()};
+                    updateFireQuery.updateFire(self.symbol().manager, params);
                 }
-                if (self.symbol().dbIsVerified != self.symbol().koIsVerified()) {
-                    // process verification change thru api
-                }
-
             };
 
 

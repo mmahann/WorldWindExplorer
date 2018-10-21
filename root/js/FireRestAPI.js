@@ -97,11 +97,11 @@ define([
         };
 
         // Calls API to update the existing placemark in the database
-        FireRestAPI.prototype.updateFire = function(symbolManager, extinguishTime) {
+        FireRestAPI.prototype.updateFire = function(symbolManager, params) {
             var dataSourceType = (typeof this.dataSource);
             if(dataSourceType === 'string'){
                 if(symbolManager){
-                    this.updateFireXHR(extinguishTime)
+                    this.updateFireXHR(params)
                 } else {
                     throw new WorldWind.ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "FireRestAPI", "updateFire", 
                     "missingSymbolManager"));
@@ -139,7 +139,7 @@ define([
             xhr.send(null);
         };
 
-        FireRestAPI.prototype.updateFireXHR = function (extinguishTime, xhr = new XMLHttpRequest()) {
+        FireRestAPI.prototype.updateFireXHR = function (params, xhr = new XMLHttpRequest()) {
             xhr.open("PUT", this.dataSource, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onreadystatechange = (function () {
@@ -164,9 +164,10 @@ define([
             };
 
             // create body string based on params
-            var bodyString = extinguishTime.replace('-', "")
-            bodyString = bodyString.replace('-', "");
-            var body = {exttime: bodyString};
+            // TODO: Fix the Params into the send call
+            var dateString = params.exttime.replace('-', "")
+            dateString = bodyString.replace('-', "");
+            var body = {lat: params.lat, lon: params.lon, alt: params.alt, verified: params.verified, exttime: dateString};
             xhr.send(JSON.stringify(body));
         };
 
