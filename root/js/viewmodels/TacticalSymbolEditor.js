@@ -283,8 +283,8 @@ define([
                     // process location change thru api
                 }
                 if (self.symbol().dbTimeExtinguished != self.symbol().koTimeExtinguished()) {
-                    // var updateFireQueryURL = "http://nasaspaceappschallenge2018.ddns.net:8081/api/fires/" + self.symbol().fid;
-                    var updateFireQueryURL = "http://localhost:4000/api/fires/" + self.symbol().fid;
+                    var updateFireQueryURL = "http://nasaspaceappschallenge2018.ddns.net:8081/api/fires/" + self.symbol().fid;
+                    //var updateFireQueryURL = "http://localhost:4000/api/fires/" + self.symbol().fid;
                     var updateFireQuery = new FireRestAPI(updateFireQueryURL);
                     updateFireQuery.updateFire(self.symbol().manager, self.symbol().koTimeExtinguished());
                 }
