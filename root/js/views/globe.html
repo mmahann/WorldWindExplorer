@@ -1,12 +1,22 @@
 <div id="globe-canvas-overlay">
     <!-- Globe overlay view fragment -->
+    <div id="new-symbol-editor" title="Report a new fire">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"><br />
+        <label for="id">ID: </label><span></span><br />
+        <label for="start_time">Start Time: </label><input type="text" id="start_time" /><br />
+        <label for="end_time">End Time: </label><input type="text" id="end_time" /><br />
+        <label for="latitude">Latitude: </label><input type="text" id="latitude"  /><br />
+        <label for="longitude">Longitude: </label><input type="text" id="longitude" /><br />
+        <label for="altitude">Altitude: </label><input type="text" id="altitude" /><br />
+    </div>
     <div id="globe-marker-controls" class="non-interactive" style="position: absolute; top: 0; right: 0;">
-        <!-- 
-        Marker Buttons 
+        <!--
+        Marker Buttons
         -->
         <div id="globe-buttons" class="interactive"
              style='float: right; margin-top: 30px; max-width: 100px'>
-            <!-- 
+            <!--
                 <span class="btn-group" style="float: left">
                 <!-- Add Marker button and palette --
                 <button type="button"
@@ -45,7 +55,7 @@
                         data-bind="click: armDropSymbol">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     <img width="28px" height="28px;"
-                         data-bind="attr:{src: selectedSymbolTemplate().imageSource}"/>
+                         data-bind="attr:{src: selectedSymbolTemplate().imageSource}" />
                 </button>
                 <!-- Tactical Symbol palette dropdown button-->
                 <button type="button"
@@ -61,10 +71,12 @@
                     style="left: initial; right: 0; min-width: 30px"
                     data-bind="foreach: symbolPalette">
                     <li data-bind="click: $parent.selectedSymbolTemplate">
-                        <a><img width="28px" height="28px;"
-                                data-bind="attr:{src: $data.imageSource}"/></a>
+                        <a>
+                            <img width="28px" height="28px;"
+                                 data-bind="attr:{src: $data.imageSource}" />
+                        </a>
                     </li>
-                </ul>          
+                </ul>
             </span>
         </div>
     </div>
@@ -114,4 +126,12 @@
             </div>
         </div>
     </div>
+    <script>
+        $( function() {
+            $("#start_time").datepicker({ dateFormat: "yy-mm-dd" });
+        });
+        $(function () {
+            $("#end_time").datepicker({dateFormat: "yy-mm-dd"});
+        });
+    </script>
 </div>
