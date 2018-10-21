@@ -2,13 +2,14 @@
     <!-- Globe overlay view fragment -->
     <div id="new-symbol-editor" title="Report a new fire">
         <label for="name">Name</label>
-        <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"><br />
-        <label for="id">ID: </label><span></span><br />
-        <label for="start_time">Start Time: </label><input type="text" id="start_time" /><br />
-        <label for="end_time">End Time: </label><input type="text" id="end_time" /><br />
-        <label for="latitude">Latitude: </label><input type="text" id="latitude" data-bind="value: latitude" /><br />
-        <label for="longitude">Longitude: </label><input type="text" id="longitude" data-bind="value: longitude" /><br />
-        <label for="altitude">Altitude: </label><input type="text" id="altitude" data-bind="value: altitude" /><br />
+        <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"
+               data-bind="value: symbol().name"><br />
+        <label for="id">ID: </label><span data-bind="text: symbol().id"></span><br />
+        <label for="start_time">Start Time: </label><input type="text" id="start_time" data-bind="value: symbol().koTimeReported" /><br />
+        <label for="end_time">End Time: </label><input type="text" id="end_time" data-bind="value: symbol().koTimeExtinguished" /><br />
+        <label for="latitude">Latitude: </label><input type="text" id="latitude" data-bind="value: symbol().latitude" /><br />
+        <label for="longitude">Longitude: </label><input type="text" id="longitude" data-bind="value: symbol().longitude" /><br />
+        <label for="altitude">Altitude: </label><input type="text" id="altitude" data-bind="value: symbol().altitude" /><br />
     </div>
     <div id="globe-marker-controls" class="non-interactive" style="position: absolute; top: 0; right: 0;">
         <!--

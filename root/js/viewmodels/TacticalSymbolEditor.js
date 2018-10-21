@@ -277,7 +277,13 @@ define([
                 console.log(symbolCode);
                 self.symbol().symbolCode(symbolCode);
                 
-                if ((self.symbol().dbLat != parseFloat(self.symbol().latitude()) || 
+                if (self.symbol().userCreated && self.symbol().dbLat == null){
+                    // If a user created symbol doesn't  have a dbLat it hasn't been pushed to the database yet. need to create the DB entry and update the db params of the symbol
+                    var createFireQueryURL = "http://nasaspaceappschallenge2018.ddns.net:8081/api/fires/";
+                    var CreateFireQuery = new FireRestAPI(createFireQueryURL);
+                    var params = {lat: parseFloat(self.symbol().latitude()), lon: parseFloat(self.symbol().longitude()), alt: parseFloat(self.symbol().altitude())};
+                    CreateFireQuery.createFire(self.symbol().manager, params);
+                } else if ((self.symbol().dbLat != parseFloat(self.symbol().latitude()) || 
                     self.symbol().dbLon != parseFloat(self.symbol().longitude()) || 
                     self.symbol().dbAlt != parseFloat(self.symbol().altitude())) || 
                     self.symbol().dbTimeExtinguished != self.symbol().koTimeExtinguished() ||
@@ -291,6 +297,39 @@ define([
                     updateFireQuery.updateFire(self.symbol().manager, params);
                 }
             };
+
+            // this.onFirstSave = function () {
+            //     var icon = self.selectedFunction() ? self.selectedFunction().function : null,
+            //     codingScheme = self.selectedScheme() ? self.selectedScheme().value : "S",
+            //     stdIdentity = self.selectedAffiliation() ? self.selectedAffiliation().value : "U",
+            //     operationalStatus = self.selectedStatus() ? self.selectedStatus().value : "-",
+            //     battleDim = icon ? icon["battle dimension"] : "Z",
+            //     functionId = icon ? icon["code"] : "------",
+            //     modifier1 = self.selectedModifier1() ? self.selectedModifier1().value : "-",
+            //     modifier2 = self.selectedModifier2() ? self.selectedModifier2().value : "-",
+            //     symbolCode;
+
+            //     symbolCode =
+            //         codingScheme +
+            //         stdIdentity +
+            //         battleDim +
+            //         operationalStatus +
+            //         functionId +
+            //         modifier1 +
+            //         modifier2;
+
+            //     console.log(symbolCode);
+            //     self.symbol().symbolCode(symbolCode);
+                
+
+            //     // process any change thru api
+            //     //var updateFireQueryURL = "http://nasaspaceappschallenge2018.ddns.net:8081/api/fires/" + self.symbol().fid;
+            //     //var updateFireQueryURL = "http://localhost:4000/api/fires/" + self.symbol().fid;
+            //     //var updateFireQuery = new FireRestAPI(updateFireQueryURL);
+            //     //var params = {lat: parseFloat(self.symbol().latitude()), lon: parseFloat(self.symbol().longitude()), alt: parseFloat(self.symbol().altitude()),
+            //     //            verified: self.symbol().koIsVerified(), exttime: self.symbol().koTimeExtinguished()};
+            //     //updateFireQuery.updateFire(self.symbol().manager, params);
+            // }
 
 
             /**

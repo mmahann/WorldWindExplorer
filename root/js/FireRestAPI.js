@@ -112,6 +112,50 @@ define([
             }
         };
 
+        // Calls API to create a fire in the database
+        FireRestAPI.prototype.createFire = function (symbolManager, params) {
+            var dataSourceType = (typeof this.dataSource);
+            if(dataSourceType === 'string'){
+                if(symbolManager){
+                    this.createFireXHR(params)
+                } else {
+                    throw new WorldWind.ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "FireRestAPI", "createFire", 
+                    "missingSymbolManager"));
+                }
+            } else {
+                throw new WorldWind.ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "FireRestAPI", "createFire",
+                    "Unsupported data source type: " + dataSourceType));
+            }
+        }
+
+        FireRestAPI.prototype.createFireXHR = function (params, xhr = new XMLHttpRequest()) {
+            xhr.open("POST", this.dataSource, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = (function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        // do nothing on status good
+                        // TODO: Maybe we should clear the symbol manager on a good update and force a refresh of the data?
+                    }
+                    else {
+                        WorldWind.Logger.log(WorldWind.Logger.LEVEL_WARNING,
+                            "FireRestAPI fire update failed (" + xhr.statusText + "): " + this.dataSourceurl);
+                    }
+                }
+            }).bind(this);
+
+            xhr.onerror = function () {
+                WorldWind.Logger.log(WorldWind.Logger.LEVEL_WARNING, "FireRestAPI fires retrieval failed: " + url);
+            };
+
+            xhr.ontimeout = function () {
+                WorldWind.Logger.log(WorldWind.Logger.LEVEL_WARNING, "FireRestAPI fires retrieval timed out: " + url);
+            };
+
+            var body = {lat: params.lat, lon: params.lon, alt: params.alt};
+            xhr.send(JSON.stringify(body));
+        }
+
         // Get FireRestAPI metadata string using XMLHttpRequest. Internal use only.
         FireRestAPI.prototype.requestFiresXHR = function (symbolManager, xhr = new XMLHttpRequest()) {
             xhr.open("GET", this.dataSource, true);
@@ -164,7 +208,6 @@ define([
             };
 
             // create body string based on params
-            // TODO: Fix the Params into the send call
             var dateString = params.exttime.replace('-', "")
             dateString = dateString.replace('-', "");
             var body = {lat: params.lat, lon: params.lon, alt: params.alt, verified: params.verified, exttime: dateString};

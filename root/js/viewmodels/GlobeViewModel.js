@@ -49,6 +49,7 @@ define([
 
             this.explorer = explorer;
             this.globe = explorer.globe;
+            this.symbol = ko.observable({});
             
             // TODO: This is fragile; find a better way to inject managers
             this.markerManager = params.markerManager;
@@ -180,40 +181,10 @@ define([
         // when the globe is clicked while dropIsArmed is true.
         GlobeViewModel.prototype.dropSymbolCallback = function (position, symbolTemplate) {
             // Add the placemark to the layer and to the observable array          
-            var symbol = new TacticalSymbol(this.symbolManager, position, { symbolCode: symbolTemplate.symbolCode, timeReported: new Date(), timeExtinguished: null, isMoveable: true, user: true, verified: false, fid: null });
-            // The symbol object to be edited 
-            console.log(symbol);
-            alert(symbol.dbLat);
-            this.id = ko.observable();
-            this.start_date = ko.observable(symbol.timeReported);
-            this.end_date = ko.observable();
-            this.latitude = ko.observable(symbol.dbLat);
-            this.longitude = ko.observable(symbol.dbLon);
-            this.altitude = ko.observable(symbol.dbAlt);
-
-            this.symbolManager.addSymbol(symbol);
-
-            console.log("Open Symbol: " + symbol.name());
-            // Update observable(s)
-            this.verifiedChanged = false;
-            this.locationChanged = false;
-            this.extTimeChanged = false;
-            // Open the dialog
-            var $symbolEditor = $("#new-symbol-editor");
-            $symbolEditor.dialog({
-                autoOpen: false,
-                title: "Report new fire",
-                buttons: {
-                    "Save": function () {
-                        self.onSave();
-                        $(this).dialog("close");
-                    },
-                    Cancel: function () {
-                        $(this).dialog("close");
-                    }
-                }
-            });
-            $symbolEditor.dialog("open");
+            var newSymbol = new TacticalSymbol(this.symbolManager, position, { symbolCode: symbolTemplate.symbolCode, timeReported: new Date(), timeExtinguished: null, isMoveable: true, user: true, verified: false, fid: null });
+            
+            this.symbolManager.addSymbol(newSymbol);
+            alert("Double click on your new placemark and click 'Save' to report the fire.");
         };
 
         /**

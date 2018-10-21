@@ -52,12 +52,29 @@ define([
 
             this.globe = manager.globe;
             this.manager = manager;
-
-            this.timeReported = args['timeReported'];
-            this.dbTimeExtinguished = args['timeExtinguished'];
-            this.koTimeExtinguished = ko.observable(this.dbTimeExtinguished);
             this.userCreated = args['user'];
-            this.dbIsVerified = args['verified'];
+            // Set these to null initilially
+            this.dbTimeReported = null;
+            this.dbTimeExtinguished = null;
+            this.dbIsVerified = null;
+            this.dbAlt = null;
+            this.dbLon = null;
+            this.dbLat = null;
+            
+            if(!this.userCreated){
+                this.dbTimeReported = args['timeReported'];
+                this.dbTimeExtinguished = args['timeExtinguished'];
+                this.dbIsVerified = args['verified'];
+                this.dbAlt = parseFloat(position.altitude);
+                this.dbLon = parseFloat(position.longitude);
+                this.dbLat = parseFloat(position.latitude);
+            }
+           
+            this.koTimeReported = ko.observable(this.dbTimeReported)
+            
+            this.koTimeExtinguished = ko.observable(this.dbTimeExtinguished);
+           
+
             this.koIsVerified = ko.observable(this.dbIsVerified);
             this.fid = args['fid'];
             // ---------------------------
@@ -117,13 +134,13 @@ define([
             this.isMovable(args['isMovable'] === undefined ? false : args['isMovable']);
             /** The latitude of this symbol -- set be by the Movable interface during pick/drag operations. See PickController */
             this.latitude(position.latitude);
-            this.dbLat = parseFloat(this.latitude());
+
             /** The longitude of this symbol -- may be set by the Movable interface during pick/drag operations See PickController */
             this.longitude(position.longitude);
-            this.dbLon = parseFloat(this.longitude());
+
             // The altitutde of this symbol
             this.altitude(position.altitude);
-            this.dbAlt = parseFloat(this.altitude());
+
             /** The lat/lon location string of this symbol */
             this.location = ko.computed(function () {
                 return formatter.formatDecimalDegreesLat(parseFloat(self.latitude()), 3) + ", " + formatter.formatDecimalDegreesLon(parseFloat(self.longitude()), 3);
