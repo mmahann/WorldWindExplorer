@@ -182,12 +182,38 @@ define([
             // Add the placemark to the layer and to the observable array          
             var symbol = new TacticalSymbol(this.symbolManager, position, { symbolCode: symbolTemplate.symbolCode, timeReported: new Date(), timeExtinguished: null, isMoveable: true, user: true, verified: false, fid: null });
             // The symbol object to be edited 
+            console.log(symbol);
+            alert(symbol.dbLat);
+            this.id = ko.observable();
+            this.start_date = ko.observable(symbol.timeReported);
+            this.end_date = ko.observable();
+            this.latitude = ko.observable(symbol.dbLat);
+            this.longitude = ko.observable(symbol.dbLon);
+            this.altitude = ko.observable(symbol.dbAlt);
 
             this.symbolManager.addSymbol(symbol);
 
-            $(function () {
-                $("#new-symbol-editor").dialog();
+            console.log("Open Symbol: " + symbol.name());
+            // Update observable(s)
+            this.verifiedChanged = false;
+            this.locationChanged = false;
+            this.extTimeChanged = false;
+            // Open the dialog
+            var $symbolEditor = $("#new-symbol-editor");
+            $symbolEditor.dialog({
+                autoOpen: false,
+                title: "Report new fire",
+                buttons: {
+                    "Save": function () {
+                        self.onSave();
+                        $(this).dialog("close");
+                    },
+                    Cancel: function () {
+                        $(this).dialog("close");
+                    }
+                }
             });
+            $symbolEditor.dialog("open");
         };
 
         /**

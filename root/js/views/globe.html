@@ -6,9 +6,9 @@
         <label for="id">ID: </label><span></span><br />
         <label for="start_time">Start Time: </label><input type="text" id="start_time" /><br />
         <label for="end_time">End Time: </label><input type="text" id="end_time" /><br />
-        <label for="latitude">Latitude: </label><input type="text" id="latitude"  /><br />
-        <label for="longitude">Longitude: </label><input type="text" id="longitude" /><br />
-        <label for="altitude">Altitude: </label><input type="text" id="altitude" /><br />
+        <label for="latitude">Latitude: </label><input type="text" id="latitude" data-bind="value: latitude" /><br />
+        <label for="longitude">Longitude: </label><input type="text" id="longitude" data-bind="value: longitude" /><br />
+        <label for="altitude">Altitude: </label><input type="text" id="altitude" data-bind="value: altitude" /><br />
     </div>
     <div id="globe-marker-controls" class="non-interactive" style="position: absolute; top: 0; right: 0;">
         <!--
