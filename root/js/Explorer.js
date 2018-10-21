@@ -166,11 +166,11 @@ define([
 
             // Dialogs
             new LayerSettings(this.globe, layerSettingsHtml);
-            new MarkerEditor(markerEditorHtml);
+            //new MarkerEditor(markerEditorHtml);
             new TacticalSymbolEditor(tacticalSymbolEditorHtml);
             
             // Marker content
-            markersViewModel.addMarkers(this.markerManager, basicMarkersHtml, "markers-body");
+            //markersViewModel.addMarkers(this.markerManager, basicMarkersHtml, "markers-body");
             markersViewModel.addMarkers(this.symbolManager, tacticalSymbolsHtml, "markers-body");
 
         };

@@ -6,18 +6,18 @@
 /*global WorldWind*/
 
 define([
-    'text!libs/milsymbol/2525C warfighting.json',
-    'text!libs/milsymbol/2525C signals-intelligence.json',
-    'text!libs/milsymbol/2525C stability-operations.json',
+    //'text!libs/milsymbol/2525C warfighting.json',
+    //'text!libs/milsymbol/2525C signals-intelligence.json',
+    //'text!libs/milsymbol/2525C stability-operations.json',
     'text!libs/milsymbol/2525C emergency-managment.json',
     'knockout',
     'jquery',
     'jqueryui',
     'text'],
     function (
-        warfighting2525c,
-        signalsIntel2525c,
-        stabilityOps2525c,
+        //warfighting2525c,
+        //signalsIntel2525c,
+        //stabilityOps2525c,
         emergencyMgmt2525c,
         ko,
         $) {
@@ -29,9 +29,9 @@ define([
          */
         function TacticalSymbolEditor(viewFragment) {
             var self = this,
-                warfighting = JSON.parse(warfighting2525c),
-                signals = JSON.parse(signalsIntel2525c),
-                stability = JSON.parse(stabilityOps2525c),
+                //warfighting = JSON.parse(warfighting2525c),
+                //signals = JSON.parse(signalsIntel2525c),
+                //stability = JSON.parse(stabilityOps2525c),
                 emergency = JSON.parse(emergencyMgmt2525c);
 
             // Load the view fragment into the DOM's body.
@@ -44,43 +44,45 @@ define([
             // The symbol object to be edited 
             this.symbol = ko.observable({});
 
+
+
             // Operational status name/value pairs for dropdown lists
             this.statusOptions = [
-                {value: "-", name: "-"},
+                //{value: "-", name: "-"},
                 {value: "P", name: "P: Present"},
-                {value: "C", name: "C: Present/Fully Capable"},
-                {value: "F", name: "F: Present/Full To Capacity"},
-                {value: "D", name: "D: Present/Damaged"},
-                {value: "X", name: "X: Present/Destroyed"},
-                {value: "A", name: "A: Anticipated/Planned"}
+                //{value: "C", name: "C: Present/Fully Capable"},
+                //{value: "F", name: "F: Present/Full To Capacity"},
+                //{value: "D", name: "D: Present/Damaged"},
+                //{value: "X", name: "X: Extinguished"},
+                //{value: "A", name: "A: Anticipated/Planned"}
             ];
             this.selectedStatus = ko.observable();
 
             // Standard identity name/value pairs for dropdown lists
             this.affiliationOptions = [
-                {value: "U", name: "U: Unknown"},
-                {value: "F", name: "F: Friend"},
-                {value: "N", name: "N: Neutral"},
+                //{value: "U", name: "U: Unknown"},
+                //{value: "F", name: "F: Friend"},
+                //{value: "N", name: "N: Neutral"},
                 {value: "H", name: "H: Hostile"},
-                {value: "P", name: "P: Pending"},
-                {value: "J", name: "J: Joker"},
-                {value: "K", name: "K: Faker"},
-                {value: "S", name: "S: Suspect"},
-                {value: "A", name: "A: Assumed Friend"},
-                {value: "G", name: "G: Exercise Pending"},
-                {value: "W", name: "W: Exercise Unknown"},
-                {value: "D", name: "D: Exercise Friend"},
-                {value: "L", name: "L: Exercise Neutral"},
-                {value: "M", name: "M: Exercise Assumed Friend"},
-                {value: "O", name: "O: None Specified"}
+                //{value: "P", name: "P: Pending"},
+                //{value: "J", name: "J: Joker"},
+                //{value: "K", name: "K: Faker"},
+                //{value: "S", name: "S: Suspect"},
+                //{value: "A", name: "A: Assumed Friend"},
+                //{value: "G", name: "G: Exercise Pending"},
+                //{value: "W", name: "W: Exercise Unknown"},
+                //{value: "D", name: "D: Exercise Friend"},
+                //{value: "L", name: "L: Exercise Neutral"},
+                //{value: "M", name: "M: Exercise Assumed Friend"},
+                //{value: "O", name: "O: None Specified"}
             ];
             this.selectedAffiliation = ko.observable();
 
             // Symbology scheme objects for dropdown lists 
             this.schemeOptions = ko.observableArray([
-                {value: "S", name: "S: " + warfighting.name, code: "WAR", symbols: warfighting},
-                {value: "I", name: "I: " + signals.name, code: "SIGINT", symbols: signals},
-                {value: "O", name: "O: " + stability.name, code: "STBOPS", symbols: stability},
+                //{value: "S", name: "S: " + warfighting.name, code: "WAR", symbols: warfighting},
+                //{value: "I", name: "I: " + signals.name, code: "SIGINT", symbols: signals},
+                //{value: "O", name: "O: " + stability.name, code: "STBOPS", symbols: stability},
                 {value: "E", name: "E: " + emergency.name, code: "EMS", symbols: emergency}]);
             this.selectedScheme = ko.observable();
 
@@ -95,6 +97,13 @@ define([
 
             this.modifierOptions2 = ko.observableArray([]);
             this.selectedModifier2 = ko.observable();
+
+            this.id = ko.observable();
+            this.start_time = ko.observable();
+            this.end_time = ko.observable();
+            this.latitutde = ko.observable();
+            this.longitude = ko.observable();
+            this.altitude = ko.observable();
 
 
             /**
@@ -281,7 +290,7 @@ define([
                 var $symbolEditor = $(self.view);
                 $symbolEditor.dialog({
                     autoOpen: false,
-                    title: "Edit Tactical Symbol",
+                    title: "Edit Fire Emergency Symbol",
                     buttons: {
                         "Save": function () {
                             self.onSave();

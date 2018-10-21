@@ -4,7 +4,7 @@
         <h5 class="panel-title">
             <a data-toggle="collapse" href="#tactical-symbols-panel" aria-expanded="false"
                aria-controls="tactical-symbols-panel">
-                Tactical Symbols<span class="badge pull-right" data-bind="text: symbolCount"></span>
+                Fire Emergency Symbols<span class="badge pull-right" data-bind="text: symbolCount"></span>
             </a>
         </h5>
     </div>
@@ -24,8 +24,8 @@ This script renders the individual symbol view model items in the Tactical Symbo
         <button type="button" class="btn btn-default"
                 style="display: block; width: 70%"
                 data-bind="click: $root.gotoSymbol">
-            <span class="pull-left"><img width="16px" height="16px"
-                                         data-bind="attr:{src: $data.placemark.attributes.imageSource}"/>  </span>
+            <!--<span class="pull-left"><img width="16px" height="16px" data-bind="attr:{src: $data.placemark.attributes.imageSource}"/>  </span>-->
+            <span class="pull-left"><img width="16px" height="16px" src="/js/model/images/milstd2525c/ehipc----------.png" />  </span>
             <span data-bind="text: $data.name"></span>
         </button>
         <!-- Edit Button -->
