@@ -208,8 +208,12 @@ define([
             };
 
             // create body string based on params
-            var dateString = params.exttime.replace('-', "")
-            dateString = dateString.replace('-', "");
+            if (typeof params.exttime === 'undefined') {
+                var dateString = null;
+            } else {
+                var dateString = params.exttime.replace('-', "")
+                dateString = dateString.replace('-', "");
+            }
             var body = {lat: params.lat, lon: params.lon, alt: params.alt, verified: params.verified, exttime: dateString};
             xhr.send(JSON.stringify(body));
         };
