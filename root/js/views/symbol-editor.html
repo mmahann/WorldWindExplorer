@@ -3,65 +3,73 @@
     <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"
            data-bind="value: symbol().name"><br />
     <label for="id">ID: </label><span data-bind="text: symbol().id"></span><br />
-    <label for="start_time">Start Time: </label><input type="text" id="start_time" data-bind="value: symbol().start_time"/><br/>
+    <label for="start_time">Start Time: </label><input type="text" id="start_time" data-bind="value: symbol().start_time" /><br />
     <label for="end_time">End Time: </label><input type="text" id="end_time" data-bind="value: symbol().end_time" /><br />
     <label for="latitude">Latitude: </label><input type="text" id="latitude" data-bind="value: symbol().latitude" /><br />
     <label for="longitude">Longitude: </label><input type="text" id="longitude" data-bind="value: symbol().longitude" /><br />
-    <label for="altitude">Altitude: </label><input type="text" id="altitude" data-bind="value: symbol().altitude"/><br />
+    <label for="altitude">Altitude: </label><input type="text" id="altitude" data-bind="value: symbol().altitude" /><br />
     <!--    <div class="dropdown">
-            <select data-bind="options: schemeNames, value: selectedSchemeName"></select>        
+            <select data-bind="options: schemeNames, value: selectedSchemeName"></select>
         </div>     -->
     <!--
     <div class="dropdown">
-        <select data-bind="options: schemeOptions, 
+        <select data-bind="options: schemeOptions,
                            optionsText: 'name',
                            value: selectedScheme,
-                           optionsCaption: '- Scheme...'"></select>        
-    </div>     
+                           optionsCaption: '- Scheme...'"></select>
+    </div>
     <div class="dropdown">
-        <select data-bind="options: affiliationOptions, 
+        <select data-bind="options: affiliationOptions,
                            optionsText: 'name',
                            value: selectedAffiliation,
                            optionsCaption: '* Identity...'">
-        </select>        
-    </div>     
+        </select>
+    </div>
     <div class="dropdown">
-        <select data-bind="options: statusOptions, 
+        <select data-bind="options: statusOptions,
                            optionsText: 'name',
                            value: selectedStatus,
                            optionsCaption: '* Status...'">
-        </select>        
-    </div>     
+        </select>
+    </div>
     <div class="dropdown">
-        <select data-bind="options: dimensionOptions, 
+        <select data-bind="options: dimensionOptions,
                            optionsText: 'name',
                            value: selectedDimension,
                            optionsCaption: 'Dimension...'">
-        </select>        
-    </div>     
+        </select>
+    </div>
     <div class="dropdown">
-        <select data-bind="options: functionOptions, 
+        <select data-bind="options: functionOptions,
                            optionsText: 'name',
                            value: selectedFunction,
                            optionsCaption: 'Function...'">
 
-        </select>        
-    </div>     
+        </select>
+    </div>
     <div class="dropdown">
-        <select data-bind="options: modifierOptions1, 
+        <select data-bind="options: modifierOptions1,
                            optionsText: 'name',
                            value: selectedModifier1,
                            optionsCaption: 'Modifier 1...'">
 
-        </select>        
-    </div>     
+        </select>
+    </div>
     <div class="dropdown">
-        <select data-bind="options: modifierOptions2, 
+        <select data-bind="options: modifierOptions2,
                            optionsText: 'name',
                            value: selectedModifier2,
                            optionsCaption: 'Modifier 2...'">
 
-        </select>        
-    </div>     
+        </select>
+    </div>
     -->
+    <script>
+        $( function() {
+            $( "#start_time" ).datepicker();
+        });
+        $(function () {
+            $("#end_time").datepicker();
+        });
+    </script>
 </div>
