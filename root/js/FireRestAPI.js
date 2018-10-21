@@ -166,7 +166,7 @@ define([
             // create body string based on params
             // TODO: Fix the Params into the send call
             var dateString = params.exttime.replace('-', "")
-            dateString = bodyString.replace('-', "");
+            dateString = dateString.replace('-', "");
             var body = {lat: params.lat, lon: params.lon, alt: params.alt, verified: params.verified, exttime: dateString};
             xhr.send(JSON.stringify(body));
         };
