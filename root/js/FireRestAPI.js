@@ -123,7 +123,7 @@ define([
                     }
                     else {
                         WorldWind.Logger.log(WorldWind.Logger.LEVEL_WARNING,
-                            "FireRestAPI fires retrieval failed (" + xhr.statusText + "): " + url);
+                            "FireRestAPI fires retrieval failed (" + xhr.statusText + "): " + this.dataSource);
                     }
                 }
             }).bind(this);
@@ -141,6 +141,7 @@ define([
 
         FireRestAPI.prototype.updateFireXHR = function (extinguishTime, xhr = new XMLHttpRequest()) {
             xhr.open("PUT", this.dataSource, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onreadystatechange = (function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
@@ -149,7 +150,7 @@ define([
                     }
                     else {
                         WorldWind.Logger.log(WorldWind.Logger.LEVEL_WARNING,
-                            "FireRestAPI fire update failed (" + xhr.statusText + "): " + url);
+                            "FireRestAPI fire update failed (" + xhr.statusText + "): " + this.dataSourceurl);
                     }
                 }
             }).bind(this);
@@ -163,9 +164,10 @@ define([
             };
 
             // create body string based on params
-            var body = "exttime=" + extinguishTime;
-
-            xhr.send(body);
+            var bodyString = extinguishTime.replace('-', "")
+            bodyString = bodyString.replace('-', "");
+            var body = {exttime: bodyString};
+            xhr.send(JSON.stringify(body));
         };
 
         // Handles the object created from the FireRestAPI data source. Internal use only.
