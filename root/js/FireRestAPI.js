@@ -208,8 +208,8 @@ define([
             };
 
             // create body string based on params
-            if (typeof params.exttime === null) {
-                var dateString = null;
+            if (params.exttime === null) {
+                var dateString = "";
             } else {
                 var dateString = params.exttime.replace('-', "")
                 dateString = dateString.replace('-', "");
