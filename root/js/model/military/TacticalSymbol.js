@@ -51,11 +51,14 @@ define([
                 args = params || {};
 
             this.globe = manager.globe;
+            this.manager = manager;
 
             this.timeReported = args['timeReported'];
-            this.timeExtinguished = args['timeExtinguished'];
+            this.dbTimeExtinguished = args['timeExtinguished'];
+            this.koTimeExtinguished = ko.observable(this.dbTimeExtinguished);
             this.userCreated = args['user'];
-            this.isVerified = args['verified'];
+            this.dbIsVerified = args['verified'];
+            this.koIsVerified = ko.observable(this.dbIsVerified);
             this.fid = args['fid'];
             // ---------------------------
             // Add the mix-in capabilites
@@ -107,18 +110,23 @@ define([
             // ------------
 
             /** The unique id used to identify this particular symbol object */
-            this.id = ko.observable(args.id || util.guid());
+            this.id = ko.observable(args.fid || util.guid());
             /** The name of this symbol */
             this.name = ko.observable(args.name || "Symbol");
             /** The movable mix-in state */
             this.isMovable(args['isMovable'] === undefined ? false : args['isMovable']);
             /** The latitude of this symbol -- set be by the Movable interface during pick/drag operations. See PickController */
             this.latitude(position.latitude);
+            this.dbLat = parseFloat(this.latitude());
             /** The longitude of this symbol -- may be set by the Movable interface during pick/drag operations See PickController */
             this.longitude(position.longitude);
+            this.dbLon = parseFloat(this.longitude());
+            // The altitutde of this symbol
+            this.altitude(position.altitude);
+            this.dbAlt = parseFloat(this.altitude());
             /** The lat/lon location string of this symbol */
             this.location = ko.computed(function () {
-                return formatter.formatDecimalDegreesLat(self.latitude(), 3) + ", " + formatter.formatDecimalDegreesLon(self.longitude(), 3);
+                return formatter.formatDecimalDegreesLat(parseFloat(self.latitude()), 3) + ", " + formatter.formatDecimalDegreesLon(parseFloat(self.longitude()), 3);
             });
 
             this.symbolCode = ko.observable(args.symbolCode || "SUG------------"); // Default to  Warfighting. Unknown. Ground.
@@ -156,6 +164,9 @@ define([
             });
             this.longitude.subscribe(function (newLon) {
                 self.placemark.position.longitude = newLon;
+            });
+            this.altitude.subscribe(function(newAlt){
+                self.placemark.position.altitude = newAlt;
             });
 
         };

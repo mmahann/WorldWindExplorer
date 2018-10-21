@@ -58,7 +58,7 @@ define([
             };
             
             this.gotoSymbol = function (marker) {
-                self.globe.goto(marker.latitude(), marker.longitude());
+                self.globe.goto(parseFloat(marker.latitude()), parseFloat(marker.longitude()));
             };
 
             /**

@@ -10,6 +10,7 @@ define([
     //'text!libs/milsymbol/2525C signals-intelligence.json',
     //'text!libs/milsymbol/2525C stability-operations.json',
     'text!libs/milsymbol/2525C emergency-managment.json',
+    '../FireRestAPI',
     'knockout',
     'jquery',
     'jqueryui',
@@ -19,6 +20,7 @@ define([
         //signalsIntel2525c,
         //stabilityOps2525c,
         emergencyMgmt2525c,
+        FireRestAPI,
         ko,
         $) {
         "use strict";
@@ -104,7 +106,6 @@ define([
             this.latitutde = ko.observable();
             this.longitude = ko.observable();
             this.altitude = ko.observable();
-
 
             /**
              * Builds the dimension options when the selected symbology scheme changes.
@@ -275,6 +276,21 @@ define([
 
                 console.log(symbolCode);
                 self.symbol().symbolCode(symbolCode);
+                
+                if (self.symbol().dbLat != parseFloat(self.symbol().latitude()) || 
+                    self.symbol().dbLon != parseFloat(self.symbol().longitude()) || 
+                    self.symbol().dbAlt != parseFloat(self.symbol().altitude())) {
+                    // process location change thru api
+                }
+                if (self.symbol().dbTimeExtinguished != self.symbol().koTimeExtinguished()) {
+                    var updateFireQueryURL = "http://nasaspaceappschallenge2018.ddns.net:8081/api/fires/" + self.symbol().fid;
+                    var updateFireQuery = new FireRestAPI(updateFireQueryURL);
+                    updateFireQuery.updateFire(self.symbol().manager, self.symbol().koTimeExtinguished());
+                }
+                if (self.symbol().dbIsVerified != self.symbol().koIsVerified()) {
+                    // process verification change thru api
+                }
+
             };
 
 
@@ -286,6 +302,9 @@ define([
                 console.log("Open Symbol: " + symbol.name());
                 // Update observable(s)
                 self.symbol(symbol);
+                this.verifiedChanged = false;
+                this.locationChanged = false;
+                this.extTimeChanged = false;
                 // Open the dialog
                 var $symbolEditor = $(self.view);
                 $symbolEditor.dialog({

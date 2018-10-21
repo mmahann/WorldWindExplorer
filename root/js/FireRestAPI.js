@@ -86,19 +86,36 @@ define([
                     this.requestFiresXHR(symbolManager);
                     loadComplete = true;
                 } else {
-                    throw new WorldWind.ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "FireRestAPI", "loadMetaData", 
+                    throw new WorldWind.ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "FireRestAPI", "retrieveFires", 
                         "missingSymbolManager"));
                 } 
             } else {
-                throw new WorldWind.ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "FireRestAPI", "loadMetaData",
+                throw new WorldWind.ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "FireRestAPI", "retrieveFires",
                     "Unsupported data source type: " + dataSourceType));
             }
             return loadComplete;
         };
 
+        // Calls API to update the existing placemark in the database
+        FireRestAPI.prototype.updateFire = function(symbolManager, extinguishTime) {
+            var dataSourceType = (typeof this.dataSource);
+            if(dataSourceType === 'string'){
+                if(symbolManager){
+                    this.updateFireXHR(extinguishTime)
+                } else {
+                    throw new WorldWind.ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "FireRestAPI", "updateFire", 
+                    "missingSymbolManager"));
+                }
+            } else {
+                throw new WorldWind.ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "FireRestAPI", "updateFire",
+                    "Unsupported data source type: " + dataSourceType));
+            }
+        };
+
         // Get FireRestAPI metadata string using XMLHttpRequest. Internal use only.
         FireRestAPI.prototype.requestFiresXHR = function (symbolManager, xhr = new XMLHttpRequest()) {
             xhr.open("GET", this.dataSource, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.onreadystatechange = (function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
@@ -106,30 +123,59 @@ define([
                     }
                     else {
                         WorldWind.Logger.log(WorldWind.Logger.LEVEL_WARNING,
-                            "FireRestAPI MetaData retrieval failed (" + xhr.statusText + "): " + url);
+                            "FireRestAPI fires retrieval failed (" + xhr.statusText + "): " + url);
                     }
                 }
             }).bind(this);
 
             xhr.onerror = function () {
-                WorldWind.Logger.log(WorldWind.Logger.LEVEL_WARNING, "FireRestAPI MetaData retrieval failed: " + url);
+                WorldWind.Logger.log(WorldWind.Logger.LEVEL_WARNING, "FireRestAPI fires retrieval failed: " + url);
             };
 
             xhr.ontimeout = function () {
-                WorldWind.Logger.log(WorldWind.Logger.LEVEL_WARNING, "FireRestAPI MetaData retrieval timed out: " + url);
+                WorldWind.Logger.log(WorldWind.Logger.LEVEL_WARNING, "FireRestAPI fires retrieval timed out: " + url);
             };
 
             xhr.send(null);
+        };
+
+        FireRestAPI.prototype.updateFireXHR = function (extinguishTime, xhr = new XMLHttpRequest()) {
+            xhr.open("PUT", this.dataSource, true);
+            xhr.onreadystatechange = (function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        // do nothing on status good
+                        // TODO: Maybe we should clear the symbol manager on a good update and force a refresh of the data?
+                    }
+                    else {
+                        WorldWind.Logger.log(WorldWind.Logger.LEVEL_WARNING,
+                            "FireRestAPI fire update failed (" + xhr.statusText + "): " + url);
+                    }
+                }
+            }).bind(this);
+
+            xhr.onerror = function () {
+                WorldWind.Logger.log(WorldWind.Logger.LEVEL_WARNING, "FireRestAPI fires retrieval failed: " + url);
+            };
+
+            xhr.ontimeout = function () {
+                WorldWind.Logger.log(WorldWind.Logger.LEVEL_WARNING, "FireRestAPI fires retrieval timed out: " + url);
+            };
+
+            // create body string based on params
+            var body = "exttime=" + extinguishTime;
+
+            xhr.send(body);
         };
 
         // Handles the object created from the FireRestAPI data source. Internal use only.
         FireRestAPI.prototype.handleFires = function (obj, symbolManager) {
             if (!obj) {
                 throw new WorldWind.ArgumentError(
-                    WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "FireRestAPI", "handleMetaData", "Invalid FireRestAPI object"));
+                    WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "FireRestAPI", "handleFires", "Invalid FireRestAPI object"));
             } else if (!symbolManager) {
                 throw new WorldWind.ArgumentError(
-                    WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "FireRestAPI", "handleMetaData", "Invalid symbolManager object"));
+                    WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "FireRestAPI", "handleFires", "Invalid symbolManager object"));
             }
 
             // Create empty variables outside of the loop so they are not created and destroyed on each iteration

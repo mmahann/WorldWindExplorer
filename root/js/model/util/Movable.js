@@ -78,6 +78,9 @@ define(['knockout',
                 if (typeof o.longitude === 'undefined') {
                     o.longitude = ko.observable();
                 }
+                if (typeof o.altitude === 'undefined'){
+                    o.altitude = ko.observable();
+                }
                 // Add the Publisher capability so that events can be generated.
                 publisher.makePublisher(o);
             }
